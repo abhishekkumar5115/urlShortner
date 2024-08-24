@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+</head>
+<body>
+    <a href="/home" class="btn btn-primary">
+      <button type="button" name="home" ><h2>Home</h2><h1>URL shotner </h1></button>
+    </a>
+    
+    <% if(locals.id) { %>
+        <p>URL Genereted: http://localhost:8001/url/<%= id %>   </p>
+    <% } %>
+    <div>
+        <form method="POST" action="/url">
+            <lable> Enter your original URl</lable>
+            <input type="text" name="url"placeholder="https://example.com">
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+    <div style="margin-top: 30px">
+        <% if(locals.urls){ %>
+            <table>
+                <thead>
+                    <th>S. No</th>
+                    <th>shortID</th>
+                    <th>Redirect</th>
+                    <th>clicks</th>
+                    <th>Delete</th>
+                </thead>
+                <tbody>
+                    <% urls.forEach((url, index) => { %>
+                        <tr>
+                          <td><%= index + 1 %></td>
+                          <td><%= url.shortId %></td>
+                          <td><%= url.redirectURL %></td>
+                          <td><%= url.visitHistory.length %></td>
+                          <td>
+                           <form action="<%= url._id %>?_method=DELETE" method="post">
+                                <input type="hidden" name="deleteurl" value="<% url._id %>">
+                                <button class="bt btn-danger">delete</button>
+                           </form>
+                           </td>
+                        </tr>
+                        <% }) %>
+                      </tbody>
+            </table> 
+
+
+            <%} %>
+          
+    </div>
+</body>
+</html>
